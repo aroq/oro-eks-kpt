@@ -1,13 +1,12 @@
 kind: Kustomization
-
 commonLabels:
   app: oro
-
 resources:
 - ../upstream
-
 configMapGenerator:
 - name: config-files
-  behavior: merge
+  # behavior: replace
+  options:
+    disableNameSuffixHash: true
   files:
   - parameters.configmap.yml
