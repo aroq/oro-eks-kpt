@@ -3,10 +3,3 @@ commonLabels:
   app: oro
 resources:
 - ../upstream
-configMapGenerator:
-- name: config-files
-  # behavior: replace
-  options:
-    disableNameSuffixHash: true
-  files:
-  - parameters.configmap.yml
