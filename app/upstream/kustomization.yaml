@@ -1,0 +1,9 @@
+kind: Kustomization
+
+commonLabels:
+  app: oro
+
+resources:
+- deployment.app.yaml
+# - configMap.yaml
+# - service.yaml

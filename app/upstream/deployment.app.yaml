@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: default # {"$ref":"#/definitions/io.k8s.cli.setters.namespace"}
+  labels:
+    app: app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: app
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: app
+    spec:
+      securityContext:
+        runAsUser: 82
+        runAsGroup: 82
+        fsGroup: 82
+
+      containers:
+      - name: nginx
+        image: "nginx:1.17.10" # {"$ref":"#/definitions/io.k8s.cli.setters.nginx_image"}
+        securityContext:
+          runAsUser: 0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        # volumeMounts:
+        # - name: code
+          # mountPath: /app
+          # subPath: html
+        # - name: config-files
+          # mountPath: /etc/nginx/conf.d/default.conf
+          # subPath: nginx.default.conf
+
+      - name: fpm
+        image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 1
+            memory: 2048Mi
+          requests:
+            cpu: 0.125
+            memory: 512Mi
+        ports:
+        - containerPort: 9000
+        # volumeMounts:
+        # - name: var-cache
+          # mountPath: /app/var/cache
+        # - name: config-files
+          # mountPath: /app/config/parameters.configmap.yml
+          # subPath: parameters.configmap.yml
+        # - name: config-files
+          # mountPath: /usr/local/etc/php/conf.d/default.ini
+          # subPath: php.xdebug.ini
+        # - name: config-files
+          # mountPath: /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+          # subPath: docker-php-ext-xdebug.ini.disabled
+        # - name: oro-parameters-installed
+          # mountPath: /app/config/parameters.yml
+          # subPath: parameters.installed.yml
+        # env:
+        # - name: ASSETS_VERSION
+          # valueFrom:
+            # configMapKeyRef:
+              # key: assets_version
+              # name: oro-config
+
+      # initContainers:
+      # - name: oro-init
+        # image: '' # {"$ref":"#/definitions/io.k8s.cli.setters.oro_code_image"}
+        # imagePullPolicy: Always
+        # resources:
+          # limits:
+            # cpu: 1
+            # memory: 2048Mi
+          # requests:
+            # cpu: 0.5
+            # memory: 512Mi
+        # env:
+        # - name: ASSETS_VERSION
+          # valueFrom:
+            # configMapKeyRef:
+              # key: assets_version
+              # name: oro-config
+        # command:
+        # - sh
+        # - "-c"
+        # - |
+          # set -x
+          # set -euo pipefail
+
+          # php -d memory_limit=-1 bin/console -vvv cache:clear --no-warmup --env=prod
+          # php -d memory_limit=-1 bin/console -vvv cache:warmup --env=prod
+          # # php -d memory_limit=-1 bin/console -vvv fos:js-routing:dump --env=prod
+        # volumeMounts:
+        # - name: var-cache
+          # mountPath: /app/var/cache
+        # - name: config-files
+          # mountPath: /app/config/parameters.configmap.yml
+          # subPath: parameters.configmap.yml
+        # - name: config-files
+          # mountPath: /usr/local/etc/php/conf.d/default.ini
+          # subPath: php.ini
+        # - name: config-files
+          # mountPath: /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+          # subPath: docker-php-ext-xdebug.ini.disabled
+        # - name: oro-parameters-installed
+          # mountPath: /app/config/parameters.yml
+          # subPath: parameters.installed.yml
+      # volumes:
+      # - name: var-cache
+        # emptyDir: {}
+      # - name: config-files
+        # configMap:
+          # name: config-files
+      # - name: oro-install-parameters
+        # configMap:
+          # name: oro-install-parameters
+      # - name: oro-config
+        # configMap:
+          # name: oro-config
+      # - name: oro-parameters-installed
+        # configMap:
+          # name: oro-parameters-installed

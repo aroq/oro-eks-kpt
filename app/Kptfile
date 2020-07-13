@@ -1,0 +1,23 @@
+apiVersion: kpt.dev/v1alpha1
+kind: Kptfile
+metadata:
+  name: app
+packageMetadata:
+  shortDescription: Oro KPT package
+openAPI:
+  definitions:
+    io.k8s.cli.setters.namespace:
+      x-k8s-cli:
+        setter:
+          name: namespace
+          value: default
+    io.k8s.cli.setters.oro_code_image:
+      x-k8s-cli:
+        setter:
+          name: oro_code_image
+          value: ""
+    io.k8s.cli.setters.nginx_image:
+      x-k8s-cli:
+        setter:
+          name: nginx_image
+          value: "nginx:1.17.10"

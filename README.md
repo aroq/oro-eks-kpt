@@ -1,2 +1,1 @@
-# oro-eks-kpt
-KPT package for the ORO Commerce installation on AWS EKS
+# KPT package for the ORO Commerce installation on AWS EKS

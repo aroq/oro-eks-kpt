@@ -1,0 +1,7 @@
+kind: Kustomization
+
+commonLabels:
+  app: oro
+
+resources:
+- ../upstream
