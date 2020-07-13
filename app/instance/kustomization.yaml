@@ -5,3 +5,9 @@ commonLabels:
 
 resources:
 - ../upstream
+
+configMapGenerator:
+- name: config-files
+  behavior: merge
+  files:
+  - parameters.configmap.yml
